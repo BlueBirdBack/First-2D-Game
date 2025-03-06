@@ -5,7 +5,7 @@ var score = 0
 
 func _ready() -> void:
 	$Player.hit.connect(game_over)
-	new_game()
+	$HUD.start_game.connect(new_game)
 
 func game_over() -> void:
 	$HUD.show_game_over()
