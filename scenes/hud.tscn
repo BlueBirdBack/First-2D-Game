@@ -12,6 +12,17 @@ events = [SubResource("InputEventAction_oo0fn")]
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_oo0fn")
 
+[node name="FPS" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.501961)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("1_ahhtf")
+theme_override_font_sizes/font_size = 16
+
 [node name="ScoreLabel" type="Label" parent="."]
 modulate = Color(1, 1, 1, 0.501961)
 anchors_preset = 8
