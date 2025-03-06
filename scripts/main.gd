@@ -12,6 +12,9 @@ func game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 
+	$Music.stop()
+	$DeathSound.play()
+
 func new_game() -> void:
 	score = 0
 	get_tree().call_group("mobs", "queue_free")
