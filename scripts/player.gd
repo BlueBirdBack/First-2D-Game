@@ -9,6 +9,10 @@ signal hit
 # Cached viewport size to constrain player movement.
 var game_window_size: Vector2
 
+# Node references using @onready
+@onready var animated_sprite = $AnimatedSprite2D
+@onready var collision_shape = $CollisionShape2D
+
 func _ready() -> void:
 	# Store the game window dimensions to clamp player position later.
 	game_window_size = get_viewport_rect().size
@@ -36,10 +40,10 @@ func _process(delta: float) -> void:
 	if velocity.length() > 0:
 		# Normalize velocity to prevent diagonal movement from being faster.
 		velocity = velocity.normalized() * speed
-		$AnimatedSprite2D.play()
+		animated_sprite.play()
 	else:
 		# Stop animation when the player is not moving.
-		$AnimatedSprite2D.stop()
+		animated_sprite.stop()
 
 	# Update position and ensure player stays within screen boundaries.
 	position += velocity * delta
@@ -47,12 +51,12 @@ func _process(delta: float) -> void:
 
 	# Update animation based on movement direction.
 	if velocity.x != 0:
-		$AnimatedSprite2D.animation = "walk"
-		$AnimatedSprite2D.flip_v = false
-		$AnimatedSprite2D.flip_h = velocity.x < 0
+		animated_sprite.animation = "walk"
+		animated_sprite.flip_v = false
+		animated_sprite.flip_h = velocity.x < 0
 	elif velocity.y != 0:
-		$AnimatedSprite2D.animation = "walk"
-		$AnimatedSprite2D.flip_v = velocity.y > 0
+		animated_sprite.animation = "walk"
+		animated_sprite.flip_v = velocity.y > 0
 
 func _on_body_entered(_body: Node2D) -> void:
 	# Handle collision with an enemy.
@@ -61,10 +65,10 @@ func _on_body_entered(_body: Node2D) -> void:
 	
 	# Disable collision to prevent multiple hits.
 	# Using set_deferred to avoid changing physics properties during physics processing.
-	$CollisionShape2D.set_deferred("disabled", true)
+	collision_shape.set_deferred("disabled", true)
 
 func start(pos: Vector2) -> void:
 	# Reset player state for a new game.
 	position = pos
 	show()
-	$CollisionShape2D.disabled = false
+	collision_shape.disabled = false

@@ -6,20 +6,34 @@ extends Node
 # Player's score in the current game.
 var score = 0
 
+# Start timer duration (to replace the StartTimer node)
+@export var start_delay_time: float = 2.0
+
+# Node references using @onready
+@onready var player = $Player
+@onready var hud = $HUD
+@onready var music = $Music
+@onready var death_sound = $DeathSound
+@onready var score_timer = $ScoreTimer
+@onready var mob_timer = $MobTimer
+@onready var start_position = $StartPosition
+@onready var mob_path = $MobPath
+@onready var mob_spawn_location = $MobPath/MobSpawnLocation
+
 func _ready() -> void:
 	# Connect signals for game flow control.
-	$Player.hit.connect(game_over)
-	$HUD.start_game.connect(new_game)
+	player.hit.connect(game_over)
+	hud.start_game.connect(new_game)
 
 func game_over() -> void:
 	# End the current game session.
-	$HUD.show_game_over()
-	$ScoreTimer.stop()
-	$MobTimer.stop()
+	hud.show_game_over()
+	score_timer.stop()
+	mob_timer.stop()
 
 	# Stop music and play death sound.
-	$Music.stop()
-	$DeathSound.play()
+	music.stop()
+	death_sound.play()
 
 func new_game() -> void:
 	# Reset game state for a new session.
@@ -29,22 +43,22 @@ func new_game() -> void:
 	get_tree().call_group("mobs", "queue_free")
 
 	# Update UI and prepare player.
-	$HUD.update_score(score)
-	$HUD.show_message("Get Ready!")
-	$Player.start($StartPosition.position)
+	hud.update_score(score)
+	hud.show_message("Get Ready!")
+	player.start(start_position.position)
 	
-	# Start the countdown before spawning mobs.
-	$StartTimer.start()
+	# Use create_timer instead of StartTimer node
+	var start_timer = get_tree().create_timer(start_delay_time)
+	start_timer.timeout.connect(_on_start_timer_timeout.bind(), CONNECT_ONE_SHOT)
 
 	# Start background music.
-	$Music.play()
+	music.play()
 
 func _on_mob_timer_timeout() -> void:
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
 
 	# Choose a random location on Path2D for mob spawning.
-	var mob_spawn_location = $MobPath/MobSpawnLocation
 	mob_spawn_location.progress_ratio = randf()
 
 	# Position the mob at the spawn point.
@@ -65,13 +79,12 @@ func _on_mob_timer_timeout() -> void:
 	# Add the mob to the scene tree.
 	add_child(mob)
 
-
 func _on_score_timer_timeout() -> void:
 	# Increment score every second and update the HUD.
 	score += 1
-	$HUD.update_score(score)
+	hud.update_score(score)
 
 func _on_start_timer_timeout() -> void:
 	# Start spawning mobs and counting score after initial delay.
-	$MobTimer.start()
-	$ScoreTimer.start()
+	mob_timer.start()
+	score_timer.start()
