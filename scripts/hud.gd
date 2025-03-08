@@ -10,16 +10,10 @@ extends CanvasLayer
 var fps_update_timer: float = 0.0
 
 func _ready() -> void:
-	# Connect the start button to its handler using the newer syntax.
 	start_button.pressed.connect(_on_start_button_pressed)
-
-	# Connect the score_updated signal to its handler.
 	SignalBus.score_updated.connect(_on_score_updated)
-
-	# Connect the game_over signal to its handler.
 	SignalBus.game_over.connect(_on_game_over)
 
-	# Initialize FPS display if the label exists.
 	if fps_label:
 		fps_label.show()
 
@@ -38,7 +32,6 @@ func _show_message(text: String, auto_hide: bool = true) -> void:
 	message.show()
 	
 	if auto_hide:
-		# Wait 3 seconds before hiding the message.
 		await get_tree().create_timer(3.0).timeout
 		message.hide()
 
