@@ -1,8 +1,5 @@
 extends Area2D
 
-# Emitted when the player collides with an enemy.
-signal hit
-
 # Movement speed in pixels per second.
 @export var speed: int = 200
 
@@ -61,7 +58,7 @@ func _process(delta: float) -> void:
 func _on_body_entered(_body: Node2D) -> void:
 	# Handle collision with an enemy.
 	hide()
-	hit.emit()
+	SignalBus.player_hit.emit()
 	
 	# Disable collision to prevent multiple hits.
 	# Using set_deferred to avoid changing physics properties during physics processing.

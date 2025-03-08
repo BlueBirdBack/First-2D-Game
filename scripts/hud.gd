@@ -1,8 +1,5 @@
 extends CanvasLayer
 
-## Signal emitted when the player starts a new game.
-signal start_game
-
 # Reference to UI nodes
 @onready var fps_label: Label = $FPS
 @onready var message: Label = $Message
@@ -57,4 +54,4 @@ func update_score(score: int) -> void:
 ## Starts a new game when the player presses the start button.
 func _on_start_button_pressed() -> void:
 	start_button.hide()
-	start_game.emit()
+	SignalBus.game_started.emit()

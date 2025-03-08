@@ -21,9 +21,15 @@ var score = 0
 @onready var mob_spawn_location = $MobPath/MobSpawnLocation
 
 func _ready() -> void:
-	# Connect signals for game flow control.
-	player.hit.connect(game_over)
-	hud.start_game.connect(new_game)
+	# Connect `timeout` signals for the 2 timers
+	# - MobTimer: Spawns new enemies when timeout
+	# - ScoreTimer: Increments player score when timeout
+	mob_timer.timeout.connect(_on_mob_timer_timeout)
+	score_timer.timeout.connect(_on_score_timer_timeout)
+
+	# Connect game flow control signals
+	SignalBus.player_hit.connect(game_over)
+	SignalBus.game_started.connect(new_game)
 
 func game_over() -> void:
 	# End the current game session.
