@@ -13,7 +13,7 @@ var game_window_size: Vector2
 func _ready() -> void:
 	# Store the game window dimensions to clamp player position later.
 	game_window_size = get_viewport_rect().size
-	print(game_window_size) # (600.0, 900.0)
+	print(game_window_size) # (540.0, 960.0)
 	
 	# Connect the body_entered signal to handle collisions.
 	body_entered.connect(_on_body_entered)
