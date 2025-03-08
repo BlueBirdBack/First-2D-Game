@@ -16,6 +16,9 @@ func _ready() -> void:
 	# Connect the score_updated signal to its handler.
 	SignalBus.score_updated.connect(_on_score_updated)
 
+	# Connect the game_over signal to its handler.
+	SignalBus.game_over.connect(_on_game_over)
+
 	# Initialize FPS display if the label exists.
 	if fps_label:
 		fps_label.show()
@@ -40,7 +43,7 @@ func show_message(text: String, auto_hide: bool = true) -> void:
 		message.hide()
 
 ## Handles the game over sequence by showing messages and resetting UI elements.
-func show_game_over() -> void:
+func _on_game_over() -> void:
 	await show_message("Game Over")
 	
 	# Reset score display to zero.

@@ -33,7 +33,7 @@ func _ready() -> void:
 
 func game_over() -> void:
 	# End the current game session.
-	hud.show_game_over()
+	SignalBus.game_over.emit()
 	score_timer.stop()
 	mob_timer.stop()
 

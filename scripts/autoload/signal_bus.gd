@@ -2,6 +2,7 @@ extends Node
 
 # Game flow related signals
 signal game_started
+signal game_over
 
 # Player related signals
 signal player_hit
