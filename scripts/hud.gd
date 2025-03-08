@@ -13,8 +13,8 @@ signal start_game
 var fps_update_timer: float = 0.0
 
 func _ready() -> void:
-	# Connect the start button to its handler.
-	start_button.connect("pressed", _on_start_button_pressed)
+	# Connect the start button to its handler using the newer syntax.
+	start_button.pressed.connect(_on_start_button_pressed)
 
 	# Initialize FPS display if the label exists.
 	if fps_label:
