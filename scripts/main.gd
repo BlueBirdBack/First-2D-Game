@@ -49,7 +49,7 @@ func new_game() -> void:
 	get_tree().call_group("mobs", "queue_free")
 
 	# Update UI and prepare player.
-	hud.update_score(score)
+	SignalBus.score_updated.emit(score)
 	hud.show_message("Get Ready!")
 	player.start(start_position.position)
 	
@@ -88,7 +88,7 @@ func _on_mob_timer_timeout() -> void:
 func _on_score_timer_timeout() -> void:
 	# Increment score every second and update the HUD.
 	score += 1
-	hud.update_score(score)
+	SignalBus.score_updated.emit(score)
 
 func _on_start_timer_timeout() -> void:
 	# Start spawning mobs and counting score after initial delay.

@@ -13,6 +13,9 @@ func _ready() -> void:
 	# Connect the start button to its handler using the newer syntax.
 	start_button.pressed.connect(_on_start_button_pressed)
 
+	# Connect the score_updated signal to its handler.
+	SignalBus.score_updated.connect(_on_score_updated)
+
 	# Initialize FPS display if the label exists.
 	if fps_label:
 		fps_label.show()
@@ -48,7 +51,7 @@ func show_game_over() -> void:
 	start_button.show()
 
 ## Updates the score display with the current score.
-func update_score(score: int) -> void:
+func _on_score_updated(score: int) -> void:
 	score_label.text = str(score)
 
 ## Starts a new game when the player presses the start button.
