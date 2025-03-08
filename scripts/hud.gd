@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 
 ## Displays a message on the HUD with optional auto-hiding functionality.
 ## If `auto_hide` is true, the message will disappear after 3 seconds.
-func show_message(text: String, auto_hide: bool = true) -> void:
+func _show_message(text: String, auto_hide: bool = true) -> void:
 	message.text = text
 	message.show()
 	
@@ -44,13 +44,13 @@ func show_message(text: String, auto_hide: bool = true) -> void:
 
 ## Handles the game over sequence by showing messages and resetting UI elements.
 func _on_game_over() -> void:
-	await show_message("Game Over")
+	await _show_message("Game Over")
 	
 	# Reset score display to zero.
 	score_label.text = "0"
 	
 	# Show the main message and make the start button visible again.
-	show_message("Dodge the Creeps!", false)
+	_show_message("Dodge the Creeps!", false)
 	start_button.show()
 
 ## Updates the score display with the current score.
@@ -61,3 +61,4 @@ func _on_score_updated(score: int) -> void:
 func _on_start_button_pressed() -> void:
 	start_button.hide()
 	SignalBus.game_started.emit()
+	_show_message("Get Ready!")

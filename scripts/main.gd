@@ -50,7 +50,7 @@ func new_game() -> void:
 
 	# Update UI and prepare player.
 	SignalBus.score_updated.emit(score)
-	hud.show_message("Get Ready!")
+
 	player.start(start_position.position)
 	
 	# Use create_timer instead of StartTimer node
